@@ -5,7 +5,7 @@ This is supported if and only if the modifications are in the list below:
 
 * Add a new member to a table
 
-    You are allowed to add a new member to the bottom an existing table. 
+    You are allowed to add a new member to the bottom of an existing table. 
     Reading a new message with the old schema will ignore the member. 
     Reading an old message with a new schema will give the member its default value. 
     For optional members the "has" property will be false.
@@ -32,7 +32,7 @@ This is supported if and only if the modifications are in the list below:
 
 * Move direct entity to the top level, or make top level entity direct.
 
-    You may make turn a direct table, struct, enum or union into a named top level entity. 
+    You may turn a direct table, struct, enum or union into a named top level entity. 
     You may turn a named top level table, strut, enum or union into a direct entity.
    
 * Add new table, struct, enum or union
@@ -41,9 +41,9 @@ This is supported if and only if the modifications are in the list below:
 
 * Toggle the optional flag on F32 and F64
 
-    For float 32 and float 64 you may add or remove the optional flag. For F32 and F64 is optional is encoded as NaN. 
-    So removing an optional flag on a float will case a unset float to be read as NaN.
-    Adding an optional flag on a float will case it to be read as unset if it happened to have the value NaN.
+    For float 32 and float 64 you may add or remove the optional flag. For F32 and F64 optional is encoded as NaN. 
+    So removing an optional flag on a float will cause an unset float to be read as NaN.
+    Adding an optional flag on a float will cause it to be read as unset if it happened to have the value NaN.
 
 Any other change to a schema **will break** cross compatibly. In paticular the following:
 * Do **not** and a new member to a struct, not even at the bottom.
@@ -54,4 +54,4 @@ Any other change to a schema **will break** cross compatibly. In paticular the f
 * Do **not** toggle the flag *inplace* on any member.
 * Do **not** change the *magic* on a table.
 
-When making a breaking change to a table it is advised to change its *magic* number to error out early with a reasonable exception, when reading a new message with an old schema or vice versa.
+When making a breaking change to a table it is advised to change its *magic* number to error out early with a reasonable exception when reading a new message with an old schema or vice versa.
