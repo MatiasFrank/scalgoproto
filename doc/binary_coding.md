@@ -21,7 +21,7 @@ Lists are encoded as follows. First the magic U32 0x3400BB46 is encoded. Then th
 * Texts, Bytes, Lists and tables are encoded as the U32 offset of their magic word in the message. The special offset zero indicates that we do not have a value.
 * Bools are packed into bytes. Such that the value of the i'th bool can be found as (bytes[i>>3] >> (i & 7)) & 1.
 * Enum values are encoded as U8. The special value 255 indicates that we do not have a value.
-* Unions are encoded are encoded as a U16 type followed by a U32 offset.
+* Unions are encoded as a U16 type followed by a U32 offset.
 
 ### tables
 Tables are encoded as follows. First the magic U32 id of the table is encoded. Then the length of the non variable length part of the table is encoded as a U32. Next the members of the table are encoded in turn:
