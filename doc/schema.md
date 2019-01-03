@@ -1,10 +1,10 @@
 # Schema language
 
-A schema file describes the layout of a messages, and has the extension ".spr". It is described in the domain specific language described below. An the top level a file consists of a number of tabels, structs and enums as well as some import and namespace statements.
+A schema file describes the layout of a messages, and has the extension ".spr". It is described in the domain specific language described below. At the top level a file consists of a number of tables, structs and enums as well as some import and namespace statements.
 
 ### Basic tyes
 
-The following basic tyes are supported:
+The following basic types are supported:
 
 * U8 is an 8 bit unsigned integer supporting values in the range 0 to 255.
 * I8 is a 8 bit signed integer supporting values in the range -128 to 127.
@@ -20,7 +20,7 @@ The following basic tyes are supported:
 
 ### Enum 
 
-An enum defines a set with a fixed number of values. An enum can either be named or brief as in the examples below:
+An enum defines a set with a fixed number of values. An enum can either be named or ??brief?? as in the examples below:
 
     enum MyEnum {
         value1,
@@ -35,11 +35,11 @@ An enum defines a set with a fixed number of values. An enum can either be named
         };
     }
 
-Here the named enum MyEnum can have one of the values "value1", "value2", "value3". And the brief enum in the MyTable table, can have the values "kind1", "kind2". An enum may have atmost 255 different values. New values should be added to the end to ensure backwards compatability. Enum names must be in camel case starting with an uppercase letter, and enum member must be in camel case starting with a lowercase letter.
+Here the named enum MyEnum can have one of the values "value1", "value2", "value3". And the brief enum in the MyTable table, can have the values "kind1", "kind2". An enum may have atmost 255 different values. New values should be added to the end to ensure backwards compatability. Enum names must be in camel case starting with an uppercase letter and enum members must be in camel case starting with a lowercase letter.
 
 ### Struct
 
-A struct is a linearly layed out object, that can be composed of elements of basic types, struct types or Enum types. 
+A struct is a linearly layed out object that can be composed of elements of basic types, struct types or Enum types. 
 
     struct MyStruct {
         a: U8;
@@ -60,14 +60,14 @@ A struct is a linearly layed out object, that can be composed of elements of bas
         }
     }
 
-In the example above we define a struct called MyStruct with an U8 named a, and a F32 named b. We define another struct called MyOtherStruct with a MyStruct named x, a MyEnum called named y, and another brief struct named z. This brief struct has a I32 member named p.
+In the example above we define a struct called MyStruct with an U8 named a, and a F32 named b. We define another struct called MyOtherStruct with a MyStruct named x, a MyEnum named y, and another brief struct named z. This brief struct has an I32 member named p.
 
 Structs can either be named or brief. The name of struct must be camel case and the first letter must be uppercase.
 
-Structs may have any number of members the name of member must be in camel case and the first letter must be in lowercase.
+Structs may have any number of members. The name of a member must be in camel case and the first letter must be in lowercase.
 The type of the members must be either a base type, a named struct, a named enum, a brief struct or a brief enum.
 
-It is **not possible** to extend or modify a struct in a backwards compatible way, so in general tabels should be prefered instead of structs. The main advantage of structs over tabels are that tables are embedded as pointers (offsets) in tables or lists while structs are directly embedded. In that way an array of points will be much smaller and more efficint if the points are structs as opposed to tabels.
+It is **not possible** to extend or modify a struct in a backwards compatible way, so in general tables should be prefered instead of structs. The main advantage of structs over tables are that tables are embedded as pointers (offsets) in tables or lists while structs are directly embedded. In that way an array of points will be much smaller and more efficient if the points are structs as opposed to tables.
 
 ### Table
 
@@ -77,7 +77,7 @@ A table is an object that can be extended in the future and which can contain an
         v1: Bool;
     }
 
-In the example above a table named MyTable is defined the table has the magic number 5D99E0AD and a Bool member named v1. Table names must be in camel case where the first letter is uppercase. The names of the members must be in camel case where the first letter is lowercase. The magic number is used as an identifier when decoding tables to ensure against type confusion.
+In the example above a table named MyTable is defined. The table has the magic number 5D99E0AD and a Bool member named v1. Table names must be in camel case where the first letter is uppercase. The names of the members must be in camel case where the first letter is lowercase. The magic number is used as an identifier when decoding tables to ensure against type confusion.
 The magic numbers can be generated as below:
 
     $ ./scalgoprotoc.py magic
@@ -86,7 +86,7 @@ The magic numbers can be generated as below:
     @3DCEBBE2
     @915EE509
 
-The tabels can contain any number of members. The type of the members can be basic types, Texts, Bytes, named unions, brief unions, named structs, brief structs, named tabels and brief Tabels.
+The tables can contain any number of members. The type of the members can be basic types, Texts, Bytes, named unions, brief unions, named structs, brief structs, named tables and brief Tables.
 
 ##### Basic types and enums
 In the example below basic types are used, and the member myInt will have a default value of 42 and namedEnum vill have a default value of b.
@@ -115,7 +115,7 @@ In the example below Texts and Bytes are used.
 Here MyTable contains pointers to a text and a bytes.
 A text is a zero terminated UTF-8 string, and Bytes can contain any binary content.
 
-##### Structs and Tabels
+##### Structs and Tables
 
     struct MyStruct {
         v: U64;
@@ -156,7 +156,7 @@ In the example above my table have has a named and an brief union member, unions
 
 ##### Optional
 
-Basic types, structs and enums may be declared optional. Tabels, unions, lists, bytes and texts are always optional. The default state of an optional element is unset. In the example below several optional elements are declared:
+Basic types, structs and enums may be declared optional. Tables, unions, lists, bytes and texts are always optional. The default state of an optional element is unset. In the example below several optional elements are declared:
 
     table MyTable @5D99E0AD {
         a: optional I32;
@@ -166,7 +166,7 @@ Basic types, structs and enums may be declared optional. Tabels, unions, lists, 
 
 ##### Lists
 
-Tabels elements an also be lists. In the example below several lists are declared:
+Table elements can also be lists. In the example below several lists are declared:
 
     table MyTable @5D99E0AD {
         a: list I32;
@@ -177,7 +177,7 @@ Tabels elements an also be lists. In the example below several lists are declare
 
 ##### Inplace
 
-Within a table atmost one table, union, text or bytes, member may be declared inplace. An inplace member in encoded directly after its table, and 8 bytes are saved. In the example below an inplace union is used;
+Within a table atmost one table, union, text or bytes, member may be declared inplace. An inplace member is encoded directly after its table, and 8 bytes are saved. In the example below an inplace union is used;
 
     table MyTable @5D99E0AD
         id: U64;
@@ -194,7 +194,7 @@ To maintain backwards compatability new members must be added to the bottom of a
 
 ### Union
 
-A union is an entety that can hold atmost one value. These values must be eithers tabels, lists, texts or bytes.
+A union is an entity that can hold atmost one value. These values must be either tables, lists, texts or bytes.
 
     table MyTable @5D99E0AD {
         id: U64;
@@ -212,7 +212,6 @@ A union is an entety that can hold atmost one value. These values must be either
             z: U32;
         };
     };
-
 In the example above a value of the MyUnion type can be one of the following:
 
 * Unassigned
@@ -223,11 +222,11 @@ In the example above a value of the MyUnion type can be one of the following:
 * A pointer to Bytes e
 * A pointer to brief table f
 
-A union can have at most 65535 different members. To maintain backwards compatability new members must be added to the end.
+A union can have at most 65535 ??65536?? different members. To maintain backwards compatability new members must be added to the end.
 
 ### Namespace
 
-When generating NEKO for c++ often you want the readers and writers to be generated in a specific namespace. To do this a namespace decleration can be used as in the example below:
+When generating NEKO for c++ often you want the readers and writers to be generated in a specific namespace. To do this a namespace declaration can be used as in the example below:
 
     namespace my::ns;
 
@@ -240,7 +239,7 @@ Here the readers and writers for the Cat table will be placed in the namespace "
 
 ### Import
 
-Some times it is not desierable to have everything in a single self contained schema file. In this case a single file can be split into several files where one file can reference entities in the other using the inport statement. As in the example below:
+Sometimes it is not desirable to have everything in a single self contained schema file. In this case a single file can be split into several files where one file can reference entities in the other using the inport statement as in the example below:
 
 base.spr
 
@@ -256,7 +255,7 @@ derived.spr
         cat : Cat;
     }
 
-Here the entities in base.spr are imported in derived.spr. When NEKO is generated from derived.spr, the readers and writers for entities of base.spr are not generetad instead an include/import statement is generated.
+Here the entities in base.spr are imported in derived.spr. When NEKO is generated from derived.spr, the readers and writers for entities of base.spr are not generated. Instead an include/import statement is generated.
 
 ### Comments
 
@@ -290,9 +289,9 @@ Additionally docstring comments are also supported, these comments are propagate
         b,
     }
 
-## Gramma
+## Grammar
 
-An gramma for a schema is defined below:
+A grammar for a schema is defined below:
 
     Document = (DocumentItem Split)*
     Split = (";" | ",")?
